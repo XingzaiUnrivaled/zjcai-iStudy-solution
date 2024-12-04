@@ -36,3 +36,10 @@ pip3 install requests
 ![](image/img_5.png)
 
 就即可使用
+
+## 版本更新
+
+v1.0.1
+
+1. 修复了不能答多个空的题目的bug
+2. 修复了阅卷不成功的bug
