@@ -52,6 +52,7 @@ def submit(cookie, id):
     data = {'id': id}
     post = requests.post(url=url, cookies=cookie, headers=headers, data=data)
     print(post.json())
+    print("提交成功")
 
 
 def main_handle(url, username, password, thread_num=5):
@@ -77,36 +78,48 @@ class Solution(threading.Thread):
 
     def run(self):
         num = self.i
-        try:
-            while num < len(self.l):
+        while num < len(self.l):
+            try:
                 answer = self.verify_answer(self.l[num], self.cookie, num + 1)
                 self.save_answer(self.l[num], self.cookie, answer, num + 1)
                 num += self.count
-        except Exception as e:
-            print(f"{num}题重试")
+            except Exception as e:
+                print(f"{num}题报错{e}")
+                print(f"{num}题重试")
 
-    def save_answer(self, i, cookie, answer, count):
+    def save_answer(self, i, cookie, answer, count, p=True):
         url = "https://zjcai.com/GoTest/SaveQuestionOne"
         data = {
             "id": i,
             "tail": int(time.time() * 1000),
-            'answer': answer,
+            'answer': str(answer),
             'answerext': '',
             'qinfo:': ''
         }
         json = requests.post(url=url, data=data, cookies=cookie).json()
-        # print(f"第{count}题 {json}")
+        if p:
+            print(f"第{count}题 {data}")
+            print(f"第{count}题 {json}")
 
     def verify_answer(self, i, cookie, count):
         url = f"https://zjcai.com/GoTest/JudgeQuestionOne1/{i}"
-        text = requests.get(url=url, cookies=cookie).text
-
-        answer = str(re.findall("<pre>.*</pre>", text)[0][5:-6])
-        if answer.__contains__("|||"):
-            answer = answer.replace("|||", "\n")
-            answer = answer.split("\n")[0]
-        print(f"第{count}题 {answer}")
-        return answer
+        while True:
+            text = requests.get(url=url, cookies=cookie).text
+            if len(re.findall('阅卷没有成功', text)) > 0:
+                self.save_answer(i, cookie, [], count, False)
+                time.sleep(1)
+                continue
+            findall = re.findall("<pre>.*</pre>", text)
+            answer_list = []
+            for e in findall:
+                if not str(e[5:-6]).__eq__(""):
+                    answer = e[5:-6]
+                    if answer.__contains__("|||"):
+                        answer = answer.replace("|||", "\n")
+                        answer = answer.split("\n")[0]
+                    answer_list.append(answer)
+            print(f"第{count}题 {answer_list}")
+            return answer_list
 
 
 if __name__ == '__main__':
