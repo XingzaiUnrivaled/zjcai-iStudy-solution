@@ -73,7 +73,7 @@ class MainLayout(QWidget):
         self.setFixedWidth(1300)
 
         self.setLayout(mainLayout)
-        self.setWindowTitle("C语言作业通解")
+        self.setWindowTitle("iStudy作业通解-by 无敌の星仔")
 
     def login(self):
         username = self.usernameLine.text()
