@@ -2,6 +2,8 @@
 
 www.zjcai.com 网站，iSudy计算机教学实验考试平台作业通解脚本
 
+**仅供学习参考**
+
 ![](image/img_1.png)
 
 这个代码使用起来十分简单，只需要把python文件 `zjcai_solution.py` 下载到本地即可
