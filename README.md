@@ -37,9 +37,28 @@ pip3 install requests
 
 就即可使用
 
+## GUI(图形化界面) 版本
+
+![](image/img_6.png)
+
+v1.0.2 版本新增
+
+所需新的依赖为pyqt5
+
+```bash
+pip install PyQt5
+```
+
+已将图形化界面打包成了.exe文件
+
 ## 版本更新
 
 v1.0.1
 
 1. 修复了不能答多个空的题目的bug
 2. 修复了阅卷不成功的bug
+
+v1.0.2
+
+1. 更新了GUI界面的代码，可以选择要不要GUI
+2. 打包成了.exe文件在release里
