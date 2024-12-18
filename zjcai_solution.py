@@ -2,6 +2,7 @@ import requests
 import re
 import time
 import threading
+import html
 
 
 def logon(username, password):
@@ -113,12 +114,13 @@ class Solution(threading.Thread):
             answer_list = []
             for e in findall:
                 if not str(e[5:-6]).__eq__(""):
-                    answer = e[5:-6]
+                    answer = html.unescape(e[5:-6])
                     if answer.__contains__("|||"):
                         answer = answer.replace("|||", "\n")
                         answer = answer.split("\n")[0]
-                    answer_list.append(answer)
-            print(f"第{count}题 {answer_list}")
+                    answer_list.append(html.unescape(answer))
+            listInfo = f"第{count}题 {answer_list}"
+            print(listInfo)
             return answer_list
 
 
