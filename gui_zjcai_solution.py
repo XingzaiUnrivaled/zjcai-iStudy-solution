@@ -3,8 +3,8 @@ import re
 import time
 import threading
 import sys
+import html
 
-from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QPushButton, QVBoxLayout
 from PyQt5.QtWidgets import QLabel, QLineEdit, QTextEdit
 from PyQt5.QtGui import QIntValidator
@@ -217,11 +217,11 @@ class Solution(threading.Thread):
             answer_list = []
             for e in findall:
                 if not str(e[5:-6]).__eq__(""):
-                    answer = e[5:-6]
+                    answer = html.unescape(e[5:-6])
                     if answer.__contains__("|||"):
                         answer = answer.replace("|||", "\n")
                         answer = answer.split("\n")[0]
-                    answer_list.append(answer)
+                    answer_list.append(html.unescape(answer))
             listInfo = f"第{count}题 {answer_list}"
             print(listInfo)
             window.append_info(listInfo)
